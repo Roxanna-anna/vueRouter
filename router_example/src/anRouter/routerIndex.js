@@ -45,10 +45,15 @@ anRouter.install = function (vue) {
       if (this.$options && this.$options.router) {
         this._root = this
         this._router = this.$options.router
+        vue.util.defineReactive(this, 'current', this._router.history)
       } else {
         this._root = this.$parent._root
       }
-      vue.util.defineReactive(this, 'current', this._router.history)
+      Object.defineProperty(this, '$router',{
+        get(){
+          return this._root._router
+        }
+      })
     }
   })
   vue.component('router-view', {
